@@ -39,7 +39,7 @@ type State struct {
 type BGPEventHandler interface {
 	NewNeighbor(*messages.BGPMessageOpen, *Neighbor) bool
 	DisconnectedNeighbor(*Neighbor)
-	StateChanged(int)
+	StateChanged(int, *Neighbor)
 
 	//KeepAlive(*Neighbor) (bool)
 	Notification(*messages.BGPMessageNotification, *Neighbor) bool
@@ -261,7 +261,7 @@ func (n *Neighbor) CraftUpdate(
 
 func (n *Neighbor) UpdateState(newstate int) {
 	n.State.CurState = newstate
-	n.HandlerEvent.StateChanged(newstate)
+	n.HandlerEvent.StateChanged(newstate, n)
 	n.State.Time = time.Now().UTC()
 }
 
