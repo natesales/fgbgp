@@ -29,8 +29,8 @@ type State struct {
 
 type BGPEventHandler interface {
 	NewNeighbor(*messages.BGPMessageOpen, *Neighbor) bool
-	OpenSend(*messages.BGPMessageOpen, *Neighbor) bool
 	DisconnectedNeighbor(*Neighbor)
+	StateChanged(int)
 
 	//KeepAlive(*Neighbor) (bool)
 	Notification(*messages.BGPMessageNotification, *Neighbor) bool
@@ -252,6 +252,7 @@ func (n *Neighbor) CraftUpdate(
 
 func (n *Neighbor) UpdateState(newstate int) {
 	n.State.CurState = newstate
+	n.HandlerEvent.StateChanged(newstate)
 	n.State.Time = time.Now().UTC()
 }
 
@@ -603,8 +604,8 @@ func NewNeighbor(addr net.IP, port int, identifier net.IP, asn uint32, addpath b
 		Identifier: identifier,
 		ASN:        asn,
 		MultiprotocolList: []messages.BGPCapability_MP{
-			messages.BGPCapability_MP{messages.AFI_IPV4, messages.SAFI_UNICAST},
-			messages.BGPCapability_MP{messages.AFI_IPV6, messages.SAFI_UNICAST}},
+			{messages.AFI_IPV4, messages.SAFI_UNICAST},
+			{messages.AFI_IPV6, messages.SAFI_UNICAST}},
 		PeerMultiprotocolList: make([]messages.BGPCapability_MP, 0),
 		PeerAddPathList:       make([]messages.AddPath, 0),
 		OutQueue:              make(chan messages.SerializableInterface, 1000),
@@ -619,8 +620,8 @@ func NewNeighbor(addr net.IP, port int, identifier net.IP, asn uint32, addpath b
 
 	if addpath {
 		n.AddPathList = []messages.AddPath{
-			messages.AddPath{messages.AFI_IPV4, messages.SAFI_UNICAST, 3},
-			messages.AddPath{messages.AFI_IPV6, messages.SAFI_UNICAST, 3}}
+			{messages.AFI_IPV4, messages.SAFI_UNICAST, 3},
+			{messages.AFI_IPV6, messages.SAFI_UNICAST, 3}}
 	}
 
 	n.Afi = messages.AFI_IPV4
