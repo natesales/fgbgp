@@ -1,4 +1,4 @@
-module github.com/bgptools/fgbgp
+module github.com/natesales/fgbgp
 
 go 1.15
 
