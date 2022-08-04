@@ -21,6 +21,15 @@ const (
 	STATE_ESTABLISHED
 )
 
+var StateToString = map[int]string{
+	STATE_IDLE:        "Idle",
+	STATE_CONNECT:     "Connect",
+	STATE_ACTIVE:      "Active",
+	STATE_OPENSENT:    "OpenSent",
+	STATE_OPENCONFIRM: "OpenConfirm",
+	STATE_ESTABLISHED: "Established",
+}
+
 type State struct {
 	CurState     int
 	OpenReceived bool
