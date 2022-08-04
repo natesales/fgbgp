@@ -6,7 +6,7 @@ import (
 	"net"
 	"os"
 
-	server "github.com/bgptools/fgbgp/server"
+	server "github.com/natesales/fgbgp/server"
 	log "github.com/sirupsen/logrus"
 )
 

@@ -8,7 +8,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/bgptools/fgbgp/messages"
+	"github.com/natesales/fgbgp/messages"
 	log "github.com/sirupsen/logrus"
 )
 

@@ -9,7 +9,7 @@ import (
 	"net"
 	"time"
 
-	"github.com/bgptools/fgbgp/messages"
+	"github.com/natesales/fgbgp/messages"
 )
 
 const (
